@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api";
 
 // Projects Component
 const Projects = () => {
@@ -7,15 +7,15 @@ const Projects = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-  axios.get("http://127.0.0.1:8000/api/projects/")
-    .then(response => {
-      setProjects(response.data.projects || []);  // ✅ ensure it's always an array
-    })
-    .catch(error => {
-      console.error("Error fetching projects:", error);
-      setProjects([]);  // ✅ fallback to empty array
-    });
-}, []);
+    API.get("/api/projects/")
+      .then((response) => {
+        setProjects(response.data.projects || []);
+      })
+      .catch((error) => {
+        console.error("Error fetching projects:", error);
+        setProjects([]);
+      });
+  }, []);
 
 
   return (

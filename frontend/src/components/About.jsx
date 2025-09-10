@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-// About Component with Progress Bar
+import API from "../api";
+
+// ✅ Set baseURL depending on environment
+/* const API = axios.create({
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? "https://protofolio-r34i.onrender.com" // Render backend
+      : "http://127.0.0.1:8000", // Local dev backend
+});
+ */
 const About = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/projects/")
+    API.get("/api/projects/")
       .then((response) => {
-        setProjects(response.data.protofolio || []); // ✅ ensure it's always an array
+        setProjects(response.data.protofolio || []);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -29,7 +37,7 @@ const About = () => {
       {Array.isArray(projects) &&
         projects.map((p) => (
           <div
-            key={p.id}   
+            key={p.id}
             className="bg-gray-900 text-white py-12 sm:py-16 md:py-20"
             id="about"
           >
@@ -65,7 +73,6 @@ const About = () => {
                       </h3>
                       {skills.map((skill) => (
                         <div key={skill.name} className="space-y-2">
-                          {/* ✅ use skill.name instead of index */}
                           <div className="flex justify-between items-center">
                             <span className="text-sm sm:text-base font-semibold">
                               {skill.name}

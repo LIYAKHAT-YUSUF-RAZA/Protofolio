@@ -2,15 +2,23 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import selfie from "../assets/selfie.jpg";
 
-// Hero Component
+import API from "../api";
+
+// ✅ Create axios instance (switches between local & production)
+/* const API = axios.create({
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? "https://protofolio-r34i.onrender.com" // Render backend
+      : "http://127.0.0.1:8000", // Local dev backend
+}); */
+
 const Hero = () => {
   const [protofolio, setProtofolio] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/projects/")
+    API.get("/api/projects/")
       .then((response) => {
-        setProtofolio(response.data.protofolio || []); // ✅ only protofolio
+        setProtofolio(response.data.protofolio || []);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -44,7 +52,7 @@ const Hero = () => {
 
             {/* Subtitle */}
             <p className="mt-4 text-gray-300 max-w-2xl mx-auto">
-              Innovative Thinker && Innovative Developer
+              Innovative Thinker &amp;&amp; Innovative Developer
             </p>
 
             {/* CTA Buttons */}
